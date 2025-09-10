@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Tamagotchi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =================== Écran d'accueil (modal) =================== -->
+  <div class="modal" id="start-modal">
+    <button id="btn-start">Commence ton aventure</button>
+  </div>
+
+  <!-- =================== Conteneur principal du jeu =================== -->
+  <main id="game">
+
+    <!-- ========== Mini-jeu (popup) ========== -->
+    <div id="mini-game" class="popup">
+      <div class="popup-content">
+        <h3>Attrape ton Tamagotchi !</h3>
+        <div id="game-area">
+          <img id="mini-pet" src="assets/pet1.png" alt="Mini Pet">
+        </div>
+        <p id="score">Score : 0</p>
+        <button id="close-game">Quitter</button>
+      </div>
+    </div>
+
+    <!-- ========== Bouton Sauvegarder ========== -->
+    <button id="btn-save">💾 Sauvegarder</button>
+
+    <!-- ========== Sons utilisés dans le jeu ========== -->
+    <audio id="sound-start" src="sounds/game-start.mp4"></audio>
+    <audio id="sound-feed" src="sounds/Manger/Action manger/eat.mp3"></audio>
+    <audio id="sound-egg" src="sounds/egg-crack.mp4"></audio>
+    <audio id="sound-btn" src="sounds/Home/Button-press/button-sound.mp3"></audio>
+    <audio id="sound-over" src="sounds/Home/Mort/Notification/game-over.mp3"></audio>
+
+    <!-- ========== Alerte Mort ========== -->
+    <section style="display: none;" class="alert">
+      <p>💀 Pet est mort !</p>
+      <button id="btn-reset" style="display: none;">🔄 Recommencer</button>
+    </section>
+    
+    <!-- ========== Écran principal du Tamagotchi ========== -->
+    <section id="screen">
+
+      <!-- Sélecteur d'œuf -->
+      <div id="egg-selector">
+        <button id="prev-egg">◀</button>
+        <div id="egg-display">
+          <img id="egg" src="assets/egg1.png" alt="Egg">
+          <img id="pet" src="assets/pet1.png" alt="Pet">
+        </div>
+        <button id="next-egg">▶</button>
+      </div>
+
+      <!------------- Popup : Nourrir ------------->
+
+      <!-- pop up des nourritures -->
+      <div id="popup-foodsList" class="popupFoodsList">
+        <div class="popupFoods-content">
+          <button id="choose-apple">🍎</button>
+          <button id="choose-banana">🍌</button>
+          <button id="choose-cookie">🍪</button>
+        </div>
+      </div>
+
+      <!-- pop up manger -->
+      <div id="popup-feed" class="popup">
+        <div class="popup-content">
+          <p>Ton Tamagotchi mange une pomme 🍎 !</p>
+          <button id="close-popup">OK</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== Statistiques (barres) ========== -->
+    <section id="stats">
+      <div class="flex">
+        <div class="padding-r-10">Faim</div>
+        <div class="bar" id="hunger-bar">
+          <div class="progress red" style="width: 2%;"></div>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="padding-r-10">Energie</div>
+        <div class="bar" id="energy-bar">
+          <div class="progress orange" style="width: 70%;"></div>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="padding-r-10">Bonheur</div>
+        <div class="bar" id="happiness-bar">
+          <div class="progress green" style="width: 100%;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Bouton ouverture œuf ========== -->
+    <div id="open">
+      <button id="btn-open">Ouvrir le Tamagotchi</button>
+    </div>
+
+    <!-- ========== Actions principales ========== -->
+    <section id="actions">
+      <button id="btn-feed">🍎 Nourrir</button>
+      <button id="btn-play">🎲 Jouer</button>
+      <button id="btn-sleep">💤 Dormir</button>
+    </section>
+
+  </main>
+
+  <!-- =================== Script =================== -->
+  <script src="script.js"></script>
+</body>
+</html>
