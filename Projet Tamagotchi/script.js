@@ -27,6 +27,7 @@ const btnSleep = document.getElementById('btn-sleep');
 const egg = document.getElementById('egg');
 const pet = document.getElementById('pet');
 
+const popup_foodsList = document.getElementById("popup-foodsList");
 const popup = document.getElementById("popup-feed");
 const closePopup = document.getElementById ("close-popup");
 
@@ -34,12 +35,15 @@ const closePopup = document.getElementById ("close-popup");
 
 const clamp = (n) => Math.max(0, Math.min(100, n));
 
+/***************************************************
+ ----------------------Pop up-----------------------
+ **************************************************/
+
 modal.addEventListener('click', () => {
   modal.style.display = 'none';
   start();
  
 });
-
 
 const eggAnimation = setInterval(() => {
   if (toggle) {
@@ -51,21 +55,26 @@ const eggAnimation = setInterval(() => {
 }, 1500); 
 
 
-
-//Quand on clique sur "Nourrir"
+// Ouvre le menu des nourritures quand on clique sur "Nourrir"
 btnFeed.addEventListener("click", () => {
-    popup.style.display = "flex"; //Affiche popup
-
-    //Augmente la barre de faim (max 100%)
-    let currentWidth = parseInt(hungerBar.style.width);
-    if (currentWidth < 100) {
-        hungerBar.style.width = (currentWidth + 10) + "%";
-    }
+  popup_foodsList.style.display = "flex";
 });
 
-//Quand on ferme la pop up
+// Quand on clique sur la pomme
+const btnApple = document.getElementById("choose-apple");
+btnApple.addEventListener("click", () => {
+  popup_foodsList.style.display = "none"; // ferme le menu
+  popup.style.display = "flex";           // ouvre la popup "il mange"
+
+  // Effet sur les stats
+  hunger = clamp(hunger - 15);
+  happiness = clamp(happiness + 5);
+  updateUI();
+});
+
+// Quand on ferme la popup "il mange" 
 closePopup.addEventListener("click", () => {
-    popup.style.display = "none";
+  popup.style.display = "none";
 });
 
 function checkDeath() {
@@ -153,6 +162,7 @@ function updateUI() {
 
 
 
+/* Déplacé dans la partie popup nourriture
 
 btnFeed.addEventListener('click', () => {
   hunger = clamp(hunger - 15);
@@ -160,6 +170,7 @@ btnFeed.addEventListener('click', () => {
   updateUI();
 });
 
+*/
 
 btnPlay.addEventListener('click', () => {
   happiness = clamp(happiness + 12);

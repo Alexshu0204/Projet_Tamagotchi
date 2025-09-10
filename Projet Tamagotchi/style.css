@@ -245,8 +245,33 @@ transition: width 0.4s ease;
   animation: fadeIn 0.5s ease;
 }
 
+/*********************************Contenu des pop up********************************************/
+
+/*Pop up des nourritures*/
+.popupFoodsList {
+  display: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+}
+
+.popupFoods-content {
+  background: #fff3b0;
+  border: 3px solid #ff6b6b;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 2px 2px 0 #ff6b6b;
+  animation: appear 0.3s ease;
+  font-size: 12px;
+  max-width: 90%;
+}
 
 
+/*Pop up quand on donne à manger au pet*/
 .popup {
   display: none;
   position: absolute;
