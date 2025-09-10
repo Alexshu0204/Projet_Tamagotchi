@@ -144,9 +144,9 @@ const btnCookie = document.getElementById("choose-cookie");
 
 // Tableau des nourritures
 const foods = {
-  apple:  { hunger: -15, happiness: +5, energy: 0, message: "Ton Tamagotchi mange une pomme 🍎 !" },
-  banana: { hunger: -10, happiness: +3, energy: +5, message: "Ton Tamagotchi dévore une banane 🍌 !" },
-  cookie: { hunger: -20, happiness: +8, energy: -5, message: "Ton Tamagotchi grignote un cookie 🍪 !" }
+  apple:  { hunger: -12, happiness: +3, energy: 0, message: "Ton Tamagotchi mange une pomme 🍎 !" },
+  banana: { hunger: -8, happiness: +2, energy: +10, message: "Ton Tamagotchi dévore une banane 🍌 !" },
+  cookie: { hunger: -20, happiness: +12, energy: -5, message: "Ton Tamagotchi grignote un cookie 🍪 !" }
 };
 
 
@@ -159,35 +159,16 @@ btnFeed.addEventListener("click", () => {
   popupFoodsList.style.display = "flex";
 });
 
-function feedPet(food) {
+const btnCloseFoods = document.getElementById("close-foods");
+
+btnCloseFoods.addEventListener("click", () => {
   popupFoodsList.style.display = "none";
-  popup.querySelector('p').textContent = food.message;
-  soundFeed.currentTime = 0;
-  soundFeed.play();
-  hunger = clamp(hunger + food.hunger);
-  happiness = clamp(happiness + food.happiness);
-  energy = clamp(energy + food.energy);
-  updateUI();
-}
-
-btnApple.addEventListener("click", () => feedPet(foods.apple));
-btnBanana.addEventListener("click", () => feedPet(foods.banana));
-btnCookie.addEventListener("click", () => feedPet(foods.cookie));
-
-// Quand on ferme la popup "il mange"
-closePopup.addEventListener("click", () => {
-  popup.style.display = "none";
 });
 
 
-// Durée de cooldown après chaque nourriture (en ms)
-const FEED_COOLDOWN_MS = 5000; // 5 secondes
-let canFeed = true;
-
 function feedPet(food) {
-  if (!canFeed) return; // Si le cooldown n'est pas fini, on ne fait rien
+  if (!canFeed) return;
 
-  // On bloque le nourrissage
   canFeed = false;
 
   popupFoodsList.style.display = "none";
@@ -202,12 +183,31 @@ function feedPet(food) {
   energy = clamp(energy + food.energy);
   updateUI();
 
-  // Réactive le nourrissage après le cooldown
+  // Ajout de l’animation et du texte
+  pet.classList.add("pet-eating");
+  document.getElementById("eating-overlay").style.display = "block";
+
+  // Réactive après le cooldown
   setTimeout(() => {
     canFeed = true;
+    pet.classList.remove("pet-eating");
+    document.getElementById("eating-overlay").style.display = "none";
   }, FEED_COOLDOWN_MS);
 }
+ 
+btnApple.addEventListener("click", () => feedPet(foods.apple));
+btnBanana.addEventListener("click", () => feedPet(foods.banana));
+btnCookie.addEventListener("click", () => feedPet(foods.cookie));
 
+// Quand on ferme la popup "il mange"
+closePopup.addEventListener("click", () => {
+  popup.style.display = "none";
+});
+
+
+// Durée de cooldown après chaque nourriture (en ms)
+const FEED_COOLDOWN_MS = 8000; 
+let canFeed = true;
 
 
 const clamp = (n) => Math.max(0, Math.min(100, n));
