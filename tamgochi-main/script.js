@@ -139,6 +139,17 @@ const popup = document.getElementById("popup-feed");
 const closePopup = document.getElementById ("close-popup");
 const popupFoodsList = document.getElementById("popup-foodsList");
 const btnApple = document.getElementById("choose-apple");
+const btnBanana = document.getElementById("choose-banana");
+const btnCookie = document.getElementById("choose-cookie");
+
+// Tableau des nourritures
+const foods = {
+  apple:  { hunger: -15, happiness: +5, energy: 0, message: "Ton Tamagotchi mange une pomme 🍎 !" },
+  banana: { hunger: -10, happiness: +3, energy: +5, message: "Ton Tamagotchi dévore une banane 🍌 !" },
+  cookie: { hunger: -20, happiness: +8, energy: -5, message: "Ton Tamagotchi grignote un cookie 🍪 !" }
+};
+
+
 
 // ---------------------- Popups Nourriture -----------------------
 
@@ -148,25 +159,55 @@ btnFeed.addEventListener("click", () => {
   popupFoodsList.style.display = "flex";
 });
 
-// Quand on choisit la pomme → ferme le menu, ouvre popup "il mange"
-btnApple.addEventListener("click", () => {
+function feedPet(food) {
   popupFoodsList.style.display = "none";
-  popup.style.display = "flex";
-
-  // Son de nourrissage
+  popup.querySelector('p').textContent = food.message;
   soundFeed.currentTime = 0;
   soundFeed.play();
-
-  // Effets sur les stats
-  hunger = clamp(hunger - 15);
-  happiness = clamp(happiness + 5);
+  hunger = clamp(hunger + food.hunger);
+  happiness = clamp(happiness + food.happiness);
+  energy = clamp(energy + food.energy);
   updateUI();
-});
+}
+
+btnApple.addEventListener("click", () => feedPet(foods.apple));
+btnBanana.addEventListener("click", () => feedPet(foods.banana));
+btnCookie.addEventListener("click", () => feedPet(foods.cookie));
 
 // Quand on ferme la popup "il mange"
 closePopup.addEventListener("click", () => {
   popup.style.display = "none";
 });
+
+
+// Durée de cooldown après chaque nourriture (en ms)
+const FEED_COOLDOWN_MS = 5000; // 5 secondes
+let canFeed = true;
+
+function feedPet(food) {
+  if (!canFeed) return; // Si le cooldown n'est pas fini, on ne fait rien
+
+  // On bloque le nourrissage
+  canFeed = false;
+
+  popupFoodsList.style.display = "none";
+  popup.querySelector('p').textContent = food.message;
+  popup.style.display = "flex";
+
+  soundFeed.currentTime = 0;
+  soundFeed.play();
+
+  hunger = clamp(hunger + food.hunger);
+  happiness = clamp(happiness + food.happiness);
+  energy = clamp(energy + food.energy);
+  updateUI();
+
+  // Réactive le nourrissage après le cooldown
+  setTimeout(() => {
+    canFeed = true;
+  }, FEED_COOLDOWN_MS);
+}
+
 
 
 const clamp = (n) => Math.max(0, Math.min(100, n));
@@ -433,15 +474,6 @@ function updateUI() {
   
 }
 
-
-
-/*
-btnFeed.addEventListener('click', () => {
-  hunger = clamp(hunger - 15);
-  happiness = clamp(happiness + 5);
-  updateUI();
-});
-*/
 
 btnPlay.addEventListener('click', () => {
   happiness = clamp(happiness + 12);
